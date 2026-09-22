@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: producer
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+finnhub:
+  api-key: ${MARKET_DATA_API_KEY}
+  ws-url: wss://ws.finnhub.io
+  watched-symbols: ${WATCHED_SYMBOLS:AAPL,MSFT,GOOGL,TSLA,AMZN}
+  # base delay before the first reconnect attempt; doubles on each
+  # consecutive failure up to reconnect-max-delay-seconds
+  reconnect-initial-delay-seconds: 2
+  reconnect-max-delay-seconds: 60
+
+kafka:
+  topic:
+    stock-ticks: stock-ticks
+
+logging:
+  level:
+    com.stockpipeline.producer: INFO
