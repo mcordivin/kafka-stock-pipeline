@@ -21,7 +21,7 @@ public class FinnhubStreamManager {
 
     private static final Logger log = LoggerFactory.getLogger(FinnhubStreamManager.class);
 
-    private final KafkaTemplate<String, StockTick> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final ScheduledExecutorService reconnectExecutor = Executors.newSingleThreadScheduledExecutor();
     private final AtomicInteger consecutiveFailures = new AtomicInteger(0);
 
@@ -31,10 +31,10 @@ public class FinnhubStreamManager {
     @Value("${finnhub.ws-url}")
     private String wsBaseUrl;
 
-    @Value("#{'$finnhub.watched-symbols}'.split(', ')}")
+    @Value("#{'${finnhub.watched-symbols}'.split(',')}")
     private List<String> watchedSymbols;
 
-    @Value("${finnhub.topic.stock-ticks}")
+    @Value("${kafka.topic.stock-ticks}")
     private String stockTicksTopic;
 
     @Value("${finnhub.reconnect-initial-delay-seconds}")
@@ -45,7 +45,7 @@ public class FinnhubStreamManager {
 
     private FinnhubWebSocketClient client;
 
-    public FinnhubStreamManager(KafkaTemplate<String, StockTick> kafkaTemplate) {
+    public FinnhubStreamManager(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -74,7 +74,7 @@ public class FinnhubStreamManager {
         );
 
         // TODO: revisit what it's keyed by - per symbol ordering
-        kafkaTemplate.send(stockTicksTopic, tick.symbol(), tick);
+        kafkaTemplate.send(stockTicksTopic, tick.symbol(), String.valueOf(tick));
         consecutiveFailures.set(0);
     }
 
