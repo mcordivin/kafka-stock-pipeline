@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: streams
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    streams:
+      application-id: stock-streams   # consumer group + prefix for internal topics
+server:
+  port: 8081
+kafka:
+  topic:
+    stock-ticks: stock-ticks
+    candles: candles
+    alerts: alerts
+
+alerts:
+  threshold-percent: ${ALERT_THRESHOLD_PERCENT:0.5}
