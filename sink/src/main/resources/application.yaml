@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: sink
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:stockdata}
+    username: ${POSTGRES_USER:stockuser}
+    password: ${POSTGRES_PASSWORD}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+server:
+  port: 8082
+
+kafka:
+  topic:
+    candles: candles
+    alerts: alerts
+  group:
+    candles: sink-candles
+    alerts: sink-alerts
+
+redis:
+  alerts:
+    max-per-symbol: 50
+    ttl-hours: 24
+
+logging:
+  level:
+    com.stockpipeline.sink: INFO
