@@ -18,7 +18,7 @@ public class AlertListener {
 
     @KafkaListener(
             topics = "${kafka.topic.alerts}",
-            groupId = "${kafka.group.alerts",
+            groupId = "${kafka.group.alerts}",
             containerFactory = "alertListenerFactory"
     )
     public void onAlert(Alert alert){
