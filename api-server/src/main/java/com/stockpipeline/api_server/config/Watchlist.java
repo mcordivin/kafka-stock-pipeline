@@ -13,7 +13,7 @@ public class Watchlist {
     private final List<String> symbols;
 
     public Watchlist(@Value("${watchlist.symbols}") String raw) {
-        this.symbols = Arrays.stream(raw.split(", "))
+        this.symbols = Arrays.stream(raw.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .map(s -> s.toUpperCase(Locale.ROOT))

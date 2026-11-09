@@ -43,7 +43,12 @@ export function useLiveFeed(symbol: string | null, onMessage: (msg: ServerMessag
                 if(msg) onMessageRef.current(msg);
             };
 
-            ws.onclose = () => {
+            ws.onerror = (e) => {
+                console.error('WebSocket error:', e);
+            };
+
+            ws.onclose = (e) => {
+                console.log('WebSocket closed:', e.code, e.reason, 'disposed:', disposed);
                 if(disposed) return;
                 attempt += 1;
                 const delay = Math.min(2 ** (attempt - 1), MAX_DELAY_S);

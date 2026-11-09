@@ -22,14 +22,15 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      '/ws': {
-        target: 'http://localhost:8082',  // not ws://
+      '/ws/live': {
+        target: 'http://localhost:8083',
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
+        rewriteWsOrigin: true,
       },
-      '/symbols': 'http://localhost:8082',
-      '/candles': 'http://localhost:8082',
-      '/alerts': 'http://localhost:8082',
+      '/symbols': 'http://localhost:8083',
+      '/candles': 'http://localhost:8083',
+      '/alerts': 'http://localhost:8083',
     },
   },
 })
